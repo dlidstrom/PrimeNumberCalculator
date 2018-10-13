@@ -1,5 +1,2 @@
-Calc.Web.v11.suo
-Calc.Web/bin/
-Calc.Web/obj/
-*.user
-packages/
+Web.Core/bin
+Web.Core/obj
