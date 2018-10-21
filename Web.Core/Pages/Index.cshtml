@@ -3,3 +3,7 @@
 @{
     ViewData["Title"] = "Home page";
 }
+
+<url>snittlistan.se</url>
+<vc:side-bar></vc:side-bar>
+@await Component.InvokeAsync("SideBar", new {max = 5})

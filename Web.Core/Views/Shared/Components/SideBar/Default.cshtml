@@ -1,0 +1,12 @@
+@model IEnumerable<PrimeNumberCalculator.Model.Link>
+
+<h3>Links</h3>
+
+<ul>
+    @foreach (var item in Model)
+    {
+        <li>
+            <a href="@item.Url">@item.Text</a>
+        </li>
+    }
+</ul>
