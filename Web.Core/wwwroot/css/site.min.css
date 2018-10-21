@@ -1,1 +1,1 @@
-.body-content{padding-left:15px;padding-right:15px}.carousel-caption p{font-size:20px;line-height:1.4}.carousel-inner .item img[src$=".svg"]{width:100%}#qrCode{margin:15px}@media screen and (max-width:767px){.carousel-caption{display:none}}
+body{background-color:#fff8dc}.body-content{border-radius:5px;box-shadow:0 1px 4px 0 rgba(0,0,0,.5);background-color:#fff}.main-title{font-family:'Courier New',Courier,monospace;font-weight:bold}
