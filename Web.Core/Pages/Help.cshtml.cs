@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-
-namespace Web.Core.Pages
+﻿namespace Web.Core.Pages
 {
+    using Microsoft.AspNetCore.Mvc.RazorPages;
+
     public class HelpModel : PageModel
     {
         public string Message { get; set; }
