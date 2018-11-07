@@ -1,1 +1,9 @@
+framework: auto-detect
+
 source https://www.nuget.org/api/v2
+
+nuget Amazon.Lambda.Core
+nuget Amazon.Lambda.Serialization.Json
+nuget Expecto
+nuget Expecto.BenchmarkDotNet
+nuget Expecto.FsCheck
