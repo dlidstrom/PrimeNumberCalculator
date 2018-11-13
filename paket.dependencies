@@ -2,8 +2,11 @@ framework: auto-detect
 
 source https://www.nuget.org/api/v2
 
+nuget Amazon.Lambda.AspNetCoreServer
 nuget Amazon.Lambda.Core
 nuget Amazon.Lambda.Serialization.Json
+nuget BuildBundlerMinifier
 nuget Expecto
 nuget Expecto.BenchmarkDotNet
 nuget Expecto.FsCheck
+nuget Microsoft.AspNetCore.App
