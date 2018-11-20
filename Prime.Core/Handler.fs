@@ -1,7 +1,8 @@
 namespace Prime.Core
 open Amazon.Lambda.Core
+open Amazon.Lambda.Serialization.Json
 
-[<assembly:LambdaSerializer(typeof<Amazon.Lambda.Serialization.Json.JsonSerializer>)>]
+[<assembly:LambdaSerializer(typeof<JsonSerializer>)>]
 do ()
 
 type Request = { Key1 : string; Key2 : string; Key3 : string }

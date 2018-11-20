@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <AssemblyName>Prime.Core</AssemblyName>
@@ -6,6 +5,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="ddd.fs" />
+    <Compile Include="Prime.fs" />
     <Compile Include="Handler.fs" />
   </ItemGroup>
   <ItemGroup>
