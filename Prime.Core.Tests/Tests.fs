@@ -3,15 +3,15 @@ namespace Prime.Core.Tests
 module Tests =
 
     open Expecto
+    open Prime.Core
+
+    let isPrime x = x > 3
 
     [<Tests>]
     let tests =
-        testList "samples" [
-            testCase "universe exists" <| fun _ ->
-              let subject = true
-              Expect.isTrue subject "I compute, therefore I am."
-
-            testProperty "Product is distributive over addition" <|
-              fun a b c ->
-                a * (b + c) = a * b + a * c
-        ]
+        testList "samples"
+            [
+                for i in [2; 3; 5; 7] do
+                    yield testCase (sprintf "isPrime %d" i) <| fun () ->
+                        Expect.isTrue (isPrime i) "str"
+            ]
