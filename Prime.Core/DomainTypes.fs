@@ -1,5 +1,7 @@
 namespace Prime.Core
 
+module DomainTypes =
+    type Primality = Composite | Prime
 (*
 public static class BigIntegerExtensions
 {

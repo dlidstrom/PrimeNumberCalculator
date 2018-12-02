@@ -3,9 +3,8 @@ namespace Prime.Core.Tests
 module Tests =
 
     open Expecto
-    open Prime.Core
-
-    let isPrime x = x > 3
+    open Prime.Core.MillerRabin
+    open Prime.Core.DomainTypes
 
     [<Tests>]
     let tests =
@@ -13,5 +12,6 @@ module Tests =
             [
                 for i in [2; 3; 5; 7] do
                     yield testCase (sprintf "isPrime %d" i) <| fun () ->
-                        Expect.isTrue (isPrime i) "str"
+                        let actual = isPrime i
+                        Expect.equal actual Primality.Prime "Expected prime"
             ]

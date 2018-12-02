@@ -4,8 +4,8 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ddd.fs" />
-    <Compile Include="Prime.fs" />
+    <Compile Include="DomainTypes.fs" />
+    <Compile Include="MillerRabin.fs" />
     <Compile Include="Handler.fs" />
   </ItemGroup>
   <ItemGroup>

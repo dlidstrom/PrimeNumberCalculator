@@ -1,5 +1,15 @@
 namespace Prime.Core
 
+module MillerRabin =
+    open Prime.Core.DomainTypes
+    let isPrime =
+        function
+            | prim when prim < 2 -> Primality.Composite
+            | _ -> Primality.Prime
+        //if (SmallPrimes.Contains(prim)) return Primality.Prime;
+        //if (SmallPrimes.Any(smallPrime => BigInteger.Remainder(prim, smallPrime) == 0)) return Primality.Composite;
+        //if (Fermat(prim) != Primality.ProbablePrime) return Primality.Composite;
+
 (*
 public class PrimeCalculator
 {

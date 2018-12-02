@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="$USER_HOME$/Library/Caches/Rider2018.2/extResources" t="IncludeRecursive" />
+    <e p="$USER_HOME$/Library/Caches/Rider2018.2/resharper-host/local/Transient/ReSharperHost/v182/SolutionCaches/_PrimeNumberCalculator.-1532134199.00" t="ExcludeRecursive" />
+    <e p="$PROJECT_DIR$" t="IncludeFlat">
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="Prime.Core" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="DomainTypes.fs" t="Include" />
+        <e p="Handler.fs" t="Include" />
+        <e p="MillerRabin.fs" t="Include" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="Prime.Core.fsproj" t="IncludeRecursive" />
+      </e>
+      <e p="Prime.Core.Tests" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Main.fs" t="Include" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="Prime.Core.Tests.fsproj" t="IncludeRecursive" />
+        <e p="Tests.fs" t="Include" />
+      </e>
+      <e p="PrimeNumberCalculator.sln" t="IncludeFlat" />
+      <e p="Web.Core" t="IncludeRecursive">
+        <e p="Api" t="Include">
+          <e p="UsersApiController.cs" t="Include" />
+        </e>
+        <e p="appsettings.Development.json" t="Include" />
+        <e p="appsettings.json" t="Include" />
+        <e p="aws-csharp.csproj.bak" t="Include" />
+        <e p="aws-lambda-tools-defaults.json" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="build.cmd" t="Include" />
+        <e p="build.sh" t="Include" />
+        <e p="bundleconfig.json" t="Include" />
+        <e p="Handler.cs" t="Include" />
+        <e p="LambdaEntryPoint.cs" t="Include" />
+        <e p="LocalEntryPoint.cs" t="Include" />
+        <e p="Model" t="Include">
+          <e p="Link.cs" t="Include" />
+        </e>
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp2.1" t="Include">
+              <e p="Web.Core.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Pages" t="Include">
+          <e p="_Layout.cshtml" t="Include" />
+          <e p="_ValidationScriptsPartial.cshtml" t="Include" />
+          <e p="_ViewImports.cshtml" t="Include" />
+          <e p="_ViewStart.cshtml" t="Include" />
+          <e p="Error.cshtml" t="Include" />
+          <e p="Error.cshtml.cs" t="Include" />
+          <e p="Help.cshtml" t="Include" />
+          <e p="Help.cshtml.cs" t="Include" />
+          <e p="Index.cshtml" t="Include" />
+          <e p="Index.cshtml.cs" t="Include" />
+        </e>
+        <e p="paket.references" t="Include" />
+        <e p="Readme.md" t="Include" />
+        <e p="serverless.template" t="Include" />
+        <e p="serverless.yml" t="Include" />
+        <e p="Startup.cs" t="Include" />
+        <e p="TagHelpers" t="Include">
+          <e p="UrlTagHelper.cs" t="Include" />
+        </e>
+        <e p="ViewComponents" t="Include">
+          <e p="SideBarViewComponent.cs" t="Include" />
+        </e>
+        <e p="Views" t="Include">
+          <e p="Shared" t="Include">
+            <e p="Components" t="Include">
+              <e p="SideBar" t="Include">
+                <e p="Default.cshtml" t="Include" />
+              </e>
+            </e>
+          </e>
+        </e>
+        <e p="Web.Core.csproj" t="IncludeRecursive" />
+        <e p="wwwroot" t="Include">
+          <e p="css" t="Include">
+            <e p="site.css" t="Include" />
+            <e p="site.min.css" t="Include" />
+          </e>
+          <e p="external" t="Include">
+            <e p="bootstrap-4" t="Include">
+              <e p="css" t="Include">
+                <e p="bootstrap-grid.css" t="Include" />
+                <e p="bootstrap-grid.css.map" t="Include" />
+                <e p="bootstrap-grid.min.css" t="Include" />
+                <e p="bootstrap-grid.min.css.map" t="Include" />
+                <e p="bootstrap-reboot.css" t="Include" />
+                <e p="bootstrap-reboot.css.map" t="Include" />
+                <e p="bootstrap-reboot.min.css" t="Include" />
+                <e p="bootstrap-reboot.min.css.map" t="Include" />
+                <e p="bootstrap.css" t="Include" />
+                <e p="bootstrap.css.map" t="Include" />
+                <e p="bootstrap.min.css" t="Include" />
+                <e p="bootstrap.min.css.map" t="Include" />
+              </e>
+              <e p="js" t="Include">
+                <e p="bootstrap.bundle.js" t="Include" />
+                <e p="bootstrap.bundle.js.map" t="Include" />
+                <e p="bootstrap.bundle.min.js" t="Include" />
+                <e p="bootstrap.bundle.min.js.map" t="Include" />
+                <e p="bootstrap.js" t="Include" />
+                <e p="bootstrap.js.map" t="Include" />
+                <e p="bootstrap.min.js" t="Include" />
+                <e p="bootstrap.min.js.map" t="Include" />
+              </e>
+            </e>
+            <e p="jquery-3.3.1.slim.js" t="Include" />
+            <e p="jquery-3.3.1.slim.min.js" t="Include" />
+          </e>
+          <e p="favicon.ico" t="Include" />
+          <e p="images" t="Include" />
+          <e p="js" t="Include">
+            <e p="app.js" t="Include" />
+            <e p="big-eval.min.js" t="Include" />
+            <e p="crypto.min.js" t="Include" />
+            <e p="ctrl.js" t="Include" />
+            <e p="site.js" t="Include" />
+            <e p="site.min.js" t="Include" />
+          </e>
+        </e>
+      </e>
+    </e>
+  </component>
+</project>
