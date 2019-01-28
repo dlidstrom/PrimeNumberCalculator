@@ -2,9 +2,14 @@ namespace Prime.Core
 
 module MillerRabin =
     open Prime.Core.DomainTypes
+
+    let private smallPrimes = Set.ofList [
+        2I; 3I; 5I; 7I
+    ]
     let isPrime =
         function
-            | prim when prim < 2 -> Primality.Composite
+            | prim when prim < 2I -> Primality.Composite
+            | prim when smallPrimes.Contains(prim) -> Primality.Prime
             | _ -> Primality.Prime
         //if (SmallPrimes.Contains(prim)) return Primality.Prime;
         //if (SmallPrimes.Any(smallPrime => BigInteger.Remainder(prim, smallPrime) == 0)) return Primality.Composite;
