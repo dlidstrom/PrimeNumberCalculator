@@ -1,18 +1,28 @@
 namespace Prime.Core
 
-module MillerRabin =
-    open Prime.Core.DomainTypes
+open System.Linq
+open System.Numerics
+open Prime.Core.DomainTypes
 
-    let private smallPrimes = Set.ofList [
-        2I; 3I; 5I; 7I
-    ]
+module MillerRabin =
+
+    let private smallPrimes =
+        [  2I;  3I;  5I;  7I; 11I; 13I; 17I; 19I; 23I; 29I;
+          31I; 37I; 41I; 43I; 47I; 53I; 59I; 61I; 67I; 71I;
+          73I; 79I; 83I; 89I; 97I; 101I; 103I; 107I; 109I; 113I;
+          127I; 131I; 137I; 139I; 149I; 151I; 157I; 163I; 167I; 173I;
+          179I; 181I; 191I; 193I; 197I; 199I; 211I; 223I; 227I; 229I;
+          233I; 239I; 241I; 251I; 257I ]
+        |> Set.ofList
     let isPrime =
         function
-            | prim when prim < 2I -> Primality.Composite
-            | prim when smallPrimes.Contains(prim) -> Primality.Prime
+            | prim when prim < 2I
+                -> Primality.Composite
+            | prim when smallPrimes.Contains(prim)
+                -> Primality.Prime
+            | prim when smallPrimes.Any(fun x -> BigInteger.Remainder(prim, x) = 0I) ->
+                Primality.Composite
             | _ -> Primality.Prime
-        //if (SmallPrimes.Contains(prim)) return Primality.Prime;
-        //if (SmallPrimes.Any(smallPrime => BigInteger.Remainder(prim, smallPrime) == 0)) return Primality.Composite;
         //if (Fermat(prim) != Primality.ProbablePrime) return Primality.Composite;
 
 (*
