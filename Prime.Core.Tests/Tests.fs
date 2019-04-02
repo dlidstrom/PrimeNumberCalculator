@@ -49,6 +49,11 @@ module Tests =
                                         (isPrime i)
                                         expected
                                         "Expected Prime"
+                                | Primality.ProbablePrime ->
+                                    Expect.equal
+                                        (isPrime i)
+                                        expected
+                                        "Expected ProbablePrime"
                 ]
 
     [<Tests>]

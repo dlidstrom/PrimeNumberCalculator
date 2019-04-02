@@ -5,7 +5,6 @@ open System.Numerics
 open Prime.Core.DomainTypes
 
 module MillerRabin =
-
     let private smallPrimes =
         [  2I;  3I;  5I;  7I; 11I; 13I; 17I; 19I; 23I; 29I;
           31I; 37I; 41I; 43I; 47I; 53I; 59I; 61I; 67I; 71I;
@@ -14,37 +13,98 @@ module MillerRabin =
           179I; 181I; 191I; 193I; 197I; 199I; 211I; 223I; 227I; 229I;
           233I; 239I; 241I; 251I; 257I ]
         |> Set.ofList
-    let isPrime =
-        function
-            | prim when prim < 2I
-                -> Primality.Composite
-            | prim when smallPrimes.Contains(prim)
-                -> Primality.Prime
-            | prim when smallPrimes.Any(fun x -> BigInteger.Remainder(prim, x) = 0I) ->
-                Primality.Composite
-            | _ -> Primality.Prime
-        //if (Fermat(prim) != Primality.ProbablePrime) return Primality.Composite;
 
+    let private fermat prim =
+        let mode = BigInteger.ModPow(3I, prim, prim)
+        if BigInteger.Compare(3I % prim, mode) <> 0
+        then Primality.Composite
+        else Primality.ProbablePrime
+
+    (*let private innerMillerRabin prim a s m d =
+        let firstModPow = BigInteger.ModPow(a, d, prim)
+        if firstModPow = 1 || firstModPow = m
+        then Primality.ProbablePrime
+        else
+
+        for (var j = 1; j < s; j++)
+        {
+            var exp = BigInteger.Pow(2, j) * d;
+            var modPow = BigInteger.ModPow(a, exp, prim);
+            if (modPow == m)
+                return Primality.ProbablePrime;
+        }
+
+        return Primality.Composite;
+    }
+
+    let private checkBases prime =
+        let getBases =
+            function
+            | prim when prim < 1373653I ->
+                Some [ 2I; 3I ]
+            | prim when prim < 9080191I ->
+                Some [ 31I; 73I ]
+            | prim when prim < 25326001I ->
+                Some [ 2I; 3I; 5I ]
+            | prim when prim < 4759123141I ->
+                Some [ 2I; 7I; 61I ]
+            | prim when prim < 1122004669633I ->
+                Some [ 2I; 13I; 23I; 1662803I ]
+            | prim when prim < 2152302898747I ->
+                Some [ 2I; 3I; 5I; 7I; 11I ]
+            | prim when prim < 3474749660383I ->
+                Some [ 2I; 3I; 5I; 7I; 11I; 13I ]
+            | prim when prim < 341550071728321I ->
+                Some [ 2I; 3I; 5I; 7I; 11I; 13I; 17I ]
+            | prim when prim < 3825123056546413051I ->
+                Some [ 2I; 3I; 5I; 7I; 11I; 13I; 17I; 19I; 23I ]
+            | _ -> None
+        let bases = getBases prime
+
+        let m = prime - 1I
+        let mutable n = m
+        let mutable s = 0
+        while n.IsEven do
+            s <- s + 1
+            n <- BigInteger.Divide(n, 2I)
+
+        match bases with
+        | Some b ->
+            let passesAllBases =
+                bases
+                |> List.forall (fun x -> InnerMillerRabin(prim, x, s, m, d) = Primality.ProbablePrime)
+            if passesAllBases
+            then Primality.Prime
+            else Primality.Composite
+        | _ ->
+            Primality.Prime
+*)
+    let invalidCheck prim =
+        if prim < 2I then Invalid else Unknown prim
+    let smallPrimesCheck prim =
+        if smallPrimes.Contains(prim) then Prime else Unknown prim
+    let baseCheck prim =
+        if smallPrimes.Any(fun x -> BigInteger.Remainder(prim, x) = 0I)
+        then Composite
+        else Unknown prim
+    let check x =
+        invalidCheck x
+        |> Primality.bind smallPrimesCheck
+        |> Primality.bind baseCheck
+
+    function
+        | prim when prim < 2I
+            -> Primality.Composite
+        | prim when smallPrimes.Contains(prim)
+            -> Primality.Prime
+        | prim when smallPrimes.Any(fun x -> BigInteger.Remainder(prim, x) = 0I) ->
+            Primality.Composite
+        | prim when fermat prim <> Primality.ProbablePrime ->
+            Primality.Composite
+        | _ -> Primality.Composite
+            //| prim ->
+            //    checkBases prim
 (*
-public class PrimeCalculator
-{
-    private static readonly HashSet<BigInteger> SmallPrimes = new HashSet<BigInteger>
-    {
-        2, 3, 5, 7, 11, 13, 17, 19, 23, 29,
-        31, 37, 41, 43, 47, 53, 59, 61, 67, 71,
-        73, 79, 83, 89, 97, 101, 103, 107, 109, 113,
-        127, 131, 137, 139, 149, 151, 157, 163, 167, 173,
-        179, 181, 191, 193, 197, 199, 211, 223, 227, 229,
-        233, 239, 241, 251, 257
-    };
-
-    public Primality MillerRabin(BigInteger prim)
-    {
-        // quick checks
-        if (prim < 2) return Primality.Composite;
-        if (SmallPrimes.Contains(prim)) return Primality.Prime;
-        if (SmallPrimes.Any(smallPrime => BigInteger.Remainder(prim, smallPrime) == 0)) return Primality.Composite;
-        if (Fermat(prim) != Primality.ProbablePrime) return Primality.Composite;
 
         int[] bases = null;
         if (prim < 1373653) bases = new[] { 2, 3 };
@@ -206,12 +266,6 @@ public class PrimeCalculator
         }
 
         return Primality.Composite;
-    }
-
-    private static Primality Fermat(BigInteger prim)
-    {
-        var mode = BigInteger.ModPow(3, prim, prim);
-        return 3 % prim != mode ? Primality.Composite : Primality.ProbablePrime;
     }
 
     private static BigInteger FermatFactor(BigInteger oddNumber, CancellationToken token)

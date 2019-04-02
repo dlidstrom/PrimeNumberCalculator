@@ -1,7 +1,30 @@
 namespace Prime.Core
 
+[<AutoOpen>]
+module Primitives =
+    let t1 x = Ok (x + 1)
+    let t2 x = if x < 10 then Ok (x * 2) else Error "No"
+    let calc x =
+        t1 x
+        |> Result.bind t2
+    let x = 1
+
 module DomainTypes =
-    type Primality = Composite | Prime
+    type Primality =
+    | Composite
+    | Prime
+    | ProbablePrime
+    | Invalid
+    | Unknown of bigint
+    module Primality =
+        let bind f =
+            function
+            | Composite -> Composite
+            | Prime -> Prime
+            | ProbablePrime -> ProbablePrime
+            | Invalid -> Invalid
+            | Unknown i -> f i
+
 (*
 public static class BigIntegerExtensions
 {
