@@ -10,20 +10,20 @@ module Primitives =
     let x = 1
 
 module DomainTypes =
-    type Primality =
-    | Composite
-    | Prime
-    | ProbablePrime
-    | Invalid
-    | Unknown of bigint
-    module Primality =
-        let bind f =
-            function
-            | Composite -> Composite
-            | Prime -> Prime
-            | ProbablePrime -> ProbablePrime
-            | Invalid -> Invalid
-            | Unknown i -> f i
+    type Known =
+    | Composite of bigint
+    | Prime of bigint
+    | ProbablePrime of bigint
+    | Invalid of bigint
+
+    type PrimalityResult =
+        | Known of Known
+        | Unknown of bigint
+    module PrimalityResult =
+        let bind f e =
+            match e with
+            | Known e -> Known e
+            | Unknown e -> f(e)
 
 (*
 public static class BigIntegerExtensions

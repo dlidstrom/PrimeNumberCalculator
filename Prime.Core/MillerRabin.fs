@@ -14,12 +14,6 @@ module MillerRabin =
           233I; 239I; 241I; 251I; 257I ]
         |> Set.ofList
 
-    let private fermat prim =
-        let mode = BigInteger.ModPow(3I, prim, prim)
-        if BigInteger.Compare(3I % prim, mode) <> 0
-        then Primality.Composite
-        else Primality.ProbablePrime
-
     (*let private innerMillerRabin prim a s m d =
         let firstModPow = BigInteger.ModPow(a, d, prim)
         if firstModPow = 1 || firstModPow = m
@@ -79,18 +73,28 @@ module MillerRabin =
         | _ ->
             Primality.Prime
 *)
-    let invalidCheck prim =
-        if prim < 2I then Invalid else Unknown prim
-    let smallPrimesCheck prim =
-        if smallPrimes.Contains(prim) then Prime else Unknown prim
-    let baseCheck prim =
-        if smallPrimes.Any(fun x -> BigInteger.Remainder(prim, x) = 0I)
-        then Composite
-        else Unknown prim
-    let check x =
-        invalidCheck x
-        |> Primality.bind smallPrimesCheck
-        |> Primality.bind baseCheck
+    let invalidCheck bi =
+        if bi < 2I
+        then Known(Invalid(bi))
+        else Unknown(bi)
+    let smallPrimesCheck bi =
+        if smallPrimes.Contains(bi)
+        then Known(Prime(bi))
+        else Unknown(bi)
+    let baseCheck bi =
+        if smallPrimes.Any(fun x -> BigInteger.Remainder(bi, x) = 0I)
+        then Known(Composite(bi))
+        else Unknown(bi)
+    let fermatCheck bi =
+        let mode = BigInteger.ModPow(3I, bi, bi)
+        if BigInteger.Compare(3I % bi, mode) <> 0
+        then Known(Composite(bi))
+        else Unknown(bi)
+    let check bi =
+        invalidCheck bi
+        |> PrimalityResult.bind smallPrimesCheck
+        |> PrimalityResult.bind baseCheck
+        |> PrimalityResult.bind fermatCheck
 
     function
         | prim when prim < 2I
