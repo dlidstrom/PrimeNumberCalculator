@@ -14,22 +14,36 @@ module MillerRabin =
           233I; 239I; 241I; 251I; 257I ]
         |> Set.ofList
 
-    (*let private innerMillerRabin prim a s m d =
-        let firstModPow = BigInteger.ModPow(a, d, prim)
-        if firstModPow = 1 || firstModPow = m
-        then Primality.ProbablePrime
+    let private innerMillerRabin num a s m d =
+        let firstModPow = BigInteger.ModPow(a, d, num)
+        if firstModPow = 1I || firstModPow = m
+        then
+            ProbablePrime num
         else
+            let rec tryPow j =
+                if j < s
+                then
+                    let exp = BigInteger.Pow(2I, j) * d
+                    let modPow = BigInteger.ModPow(a, exp, num)
+                    if modPow = m
+                    then
+                        ProbablePrime num
+                    else
+                        tryPow (j + 1)
+                else
+                    Composite num
 
-        for (var j = 1; j < s; j++)
-        {
-            var exp = BigInteger.Pow(2, j) * d;
-            var modPow = BigInteger.ModPow(a, exp, prim);
-            if (modPow == m)
-                return Primality.ProbablePrime;
-        }
+            tryPow 1
 
-        return Primality.Composite;
-    }
+            // for (var j = 1; j < s; j++)
+            // {
+            //     var exp = BigInteger.Pow(2, j) * d;
+            //     var modPow = BigInteger.ModPow(a, exp, prim);
+            //     if (modPow == m)
+            //         return Primality.ProbablePrime;
+            // }
+
+            // Composite
 
     let private checkBases prime =
         let getBases =
@@ -56,60 +70,76 @@ module MillerRabin =
         let bases = getBases prime
 
         let m = prime - 1I
-        let mutable n = m
-        let mutable s = 0
-        while n.IsEven do
-            s <- s + 1
-            n <- BigInteger.Divide(n, 2I)
+        let calcS m =
+            let rec inner s (n : bigint) =
+                if n.IsEven
+                then inner (s + 1) (BigInteger.Divide(n, 2I))
+                else s
+            inner 0 m
+
+        let s = calcS m
+        let d = m / BigInteger.Pow(2I, s)
 
         match bases with
         | Some b ->
             let passesAllBases =
-                bases
-                |> List.forall (fun x -> InnerMillerRabin(prim, x, s, m, d) = Primality.ProbablePrime)
+                b
+                |> List.forall (fun x ->
+                    match innerMillerRabin prime x s m d with
+                    | ProbablePrime _ -> true
+                    | _ -> false)
             if passesAllBases
-            then Primality.Prime
-            else Primality.Composite
+            then
+                Prime prime
+            else
+                Composite prime
         | _ ->
-            Primality.Prime
-*)
-    let invalidCheck bi =
-        if bi < 2I
-        then Known(Invalid(bi))
-        else Unknown(bi)
-    let smallPrimesCheck bi =
-        if smallPrimes.Contains(bi)
-        then Known(Prime(bi))
-        else Unknown(bi)
-    let baseCheck bi =
-        if smallPrimes.Any(fun x -> BigInteger.Remainder(bi, x) = 0I)
-        then Known(Composite(bi))
-        else Unknown(bi)
-    let fermatCheck bi =
-        let mode = BigInteger.ModPow(3I, bi, bi)
-        if BigInteger.Compare(3I % bi, mode) <> 0
-        then Known(Composite(bi))
-        else Unknown(bi)
-    let check bi =
-        invalidCheck bi
+            // try random bases
+            let rec tryRandomBase (i : int) =
+                if i < 20
+                then
+                    let based = BigIntegerExtensions.randomIntegerBelow (prime - 2I)
+                    let a =
+                        match innerMillerRabin prime based s m d with
+                        | ProbablePrime _ ->
+                            tryRandomBase i + 1
+                        | _ ->
+                            let x = Composite prime
+                            x
+                    a
+                else
+                    ProbablePrime prime
+
+            tryRandomBase 0
+
+    let invalidCheck num =
+        if num < 2I
+        then Known(Invalid(num))
+        else Unknown(num)
+
+    let smallPrimesCheck num =
+        if Set.contains num smallPrimes
+        then Known(Prime(num))
+        else Unknown(num)
+
+    let baseCheck num =
+        if Set.exists (fun x -> BigInteger.Remainder(num, x) = 0I) smallPrimes
+        then Known(Composite(num))
+        else Unknown(num)
+
+    let fermatCheck num =
+        let mode = BigInteger.ModPow(3I, num, num)
+        if BigInteger.Compare(3I % num, mode) <> 0
+        then Known(Composite(num))
+        else Unknown(num)
+
+    let allChecks num =
+        invalidCheck num
         |> PrimalityResult.bind smallPrimesCheck
         |> PrimalityResult.bind baseCheck
         |> PrimalityResult.bind fermatCheck
 
-    function
-        | prim when prim < 2I
-            -> Primality.Composite
-        | prim when smallPrimes.Contains(prim)
-            -> Primality.Prime
-        | prim when smallPrimes.Any(fun x -> BigInteger.Remainder(prim, x) = 0I) ->
-            Primality.Composite
-        | prim when fermat prim <> Primality.ProbablePrime ->
-            Primality.Composite
-        | _ -> Primality.Composite
-            //| prim ->
-            //    checkBases prim
 (*
-
         int[] bases = null;
         if (prim < 1373653) bases = new[] { 2, 3 };
         else if (prim < 9080191) bases = new[] { 31, 73 };

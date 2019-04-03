@@ -39,7 +39,7 @@ module Tests =
                             (sprintf "%A" i)
                             <| fun () ->
                                 match expected with
-                                | Primality.Composite ->
+                                | Composite ->
                                     Expect.equal
                                         (isPrime i)
                                         expected
