@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Primitives.fs" />
     <Compile Include="DomainTypes.fs" />
     <Compile Include="MillerRabin.fs" />
     <Compile Include="Handler.fs" />
