@@ -5,6 +5,13 @@ type Classification =
     | Prime of bigint
     | ProbablePrime of bigint
     | Invalid of bigint
+module Classification =
+    let value =
+        function
+        | Composite c -> c
+        | Prime p -> p
+        | ProbablePrime p -> p
+        | Invalid p -> p
 
 type PrimalityResult =
     | Known of Classification

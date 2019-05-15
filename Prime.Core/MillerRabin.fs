@@ -1,6 +1,5 @@
 module MillerRabin
 
-open Primitives
 open DomainTypes
 
 let private smallPrimes =
@@ -33,19 +32,9 @@ let private innerMillerRabin num a s m d =
 
         tryPow 1
 
-        // for (var j = 1; j < s; j++)
-        // {
-        //     var exp = BigInteger.Pow(2, j) * d;
-        //     var modPow = BigInteger.ModPow(a, exp, prim);
-        //     if (modPow == m)
-        //         return Primality.ProbablePrime;
-        // }
-
-        // Composite
-
-let private checkBases prime =
-    let getBases =
-        function
+let checkBases num =
+    let bases =
+        match num with
         | prim when prim < 1373653I ->
             Some [ 2I; 3I ]
         | prim when prim < 9080191I ->
@@ -65,9 +54,8 @@ let private checkBases prime =
         | prim when prim < 3825123056546413051I ->
             Some [ 2I; 3I; 5I; 7I; 11I; 13I; 17I; 19I; 23I ]
         | _ -> None
-    let bases = getBases prime
 
-    let m = prime - 1I
+    let m = num - 1I
     let calcS m =
         let rec inner s (n : bigint) =
             if n.IsEven
@@ -84,15 +72,15 @@ let private checkBases prime =
             let passesAllBases =
                 b
                 |> List.forall (fun x ->
-                    match innerMillerRabin prime x s m d with
+                    match innerMillerRabin num x s m d with
                     | ProbablePrime _ -> true
                     | _ -> false)
             let result =
                 if passesAllBases
                 then
-                    Prime prime
+                    Prime num
                 else
-                    Composite prime
+                    Composite num
             result
         | _ ->
             // try random bases
@@ -100,22 +88,22 @@ let private checkBases prime =
                 let result =
                     if i < 20
                     then
-                        let based = BigIntegerExtensions.randomIntegerBelow (prime - 2I)
+                        let based = BigIntegerExtensions.randomIntegerBelow (num - 2I)
                         let (a : Classification) =
-                            match innerMillerRabin prime based s m d with
+                            match innerMillerRabin num based s m d with
                             | ProbablePrime _ ->
                                 let result1 = tryRandomBase (i + 1)
                                 result1
                             | _ ->
-                                Composite prime
+                                Composite num
                         a
                     else
-                        ProbablePrime prime
+                        ProbablePrime num
                 result
 
             let result = tryRandomBase 0
             result
-    result
+    Known result
 
 let invalidCheck num =
     if num < 2I
@@ -127,7 +115,7 @@ let smallPrimesCheck num =
     then Known(Prime(num))
     else Unknown(num)
 
-let baseCheck num =
+let smallPrimesDivisibleCheck num =
     if Set.exists (fun x -> bigint.Remainder(num, x) = 0I) smallPrimes
     then Known(Composite(num))
     else Unknown(num)
@@ -141,5 +129,6 @@ let fermatCheck num =
 let isPrime num =
     invalidCheck num
     |> PrimalityResult.bind smallPrimesCheck
-    |> PrimalityResult.bind baseCheck
+    |> PrimalityResult.bind smallPrimesDivisibleCheck
     |> PrimalityResult.bind fermatCheck
+    |> PrimalityResult.bind checkBases

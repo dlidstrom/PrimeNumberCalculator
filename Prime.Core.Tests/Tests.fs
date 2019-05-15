@@ -18,11 +18,11 @@ module Constants =
     ]
 
     let LargePrimes = [
-        87178291199I;
-        10888869450418352160768000001I;
-        265252859812191058636308479999999I;
-        263130836933693530167218012159999999I
-        8683317618811886495518194401279999999I
+        Prime 87178291199I
+        ProbablePrime 10888869450418352160768000001I
+        ProbablePrime 265252859812191058636308479999999I
+        ProbablePrime 263130836933693530167218012159999999I
+        ProbablePrime 8683317618811886495518194401279999999I
     ]
 
 module Helpers =
@@ -75,11 +75,17 @@ let mediumPrimes =
 
 [<Tests>]
 let largePrimes =
-    let expected x = Prime x |> Known
-    Helpers.createTestList
-        "Large Primes"
-        Constants.LargePrimes
-        expected
+    testList "Large Primes" [
+        for classification in Constants.LargePrimes do
+            let num = Classification.value classification
+            let actual =
+                match isPrime num with
+                | Known k -> k
+                | _ -> failwith "Unexpected"
+            yield testCase (sprintf "%A" classification) <|
+                fun _ ->
+                    Expect.equal actual classification "Should equal"
+    ]
 
 [<Tests>]
 let smallMediumComposites =
@@ -96,7 +102,7 @@ let smallLargeComposites =
     Helpers.createTestList
         "Small Large Composites"
         [for x in Constants.SmallPrimes do
-            for y in Constants.LargePrimes -> x * y]
+            for y in Constants.LargePrimes -> x * (Classification.value y)]
         expected
 
 [<Tests>]
@@ -105,5 +111,5 @@ let mediumLargeComposites =
     Helpers.createTestList
         "Medium Large Composites"
         [for x in Constants.MediumPrimes do
-            for y in Constants.LargePrimes -> x * y]
+            for y in Constants.LargePrimes -> x * (Classification.value y)]
         expected
