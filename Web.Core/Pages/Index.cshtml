@@ -1,8 +1,19 @@
 ﻿@page
-@model IndexModel
+@model Index
 @{
     ViewData["Title"] = "Home page";
 }
 
+<div class="card">
+    <div class="card-body">
+        <form>
+            <div class="form-group">
+                <input type="text" class="form-control" id="input" placeholder="Number">
+                <small class="form-text text-muted">Check for prime.</small>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>
 <url>snittlistan.se</url>
 <vc:side-bar source="tag helper"></vc:side-bar>
