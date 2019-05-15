@@ -1,9 +1,7 @@
-namespace Prime.Core.Tests
+module Main
 
-module Main =
+open Expecto
 
-    open Expecto
-
-    [<EntryPoint>]
-    let main argv =
-        Tests.runTestsInAssembly defaultConfig argv
+[<EntryPoint>]
+let main argv =
+    Tests.runTestsInAssembly defaultConfig argv
