@@ -33,6 +33,7 @@ let private innerMillerRabin num a s m d =
         tryPow 1
 
 let checkBases num =
+    // todo: change into array only
     let bases =
         match num with
         | prim when prim < 1373653I ->
@@ -55,6 +56,7 @@ let checkBases num =
             Some [ 2I; 3I; 5I; 7I; 11I; 13I; 17I; 19I; 23I ]
         | _ -> None
 
+    // todo: document what is s
     let m = num - 1I
     let calcS m =
         let rec inner s (n : bigint) =
@@ -66,6 +68,8 @@ let checkBases num =
     let s = calcS m
     let d = m / bigint.Pow(2I, s)
 
+    // both cases are really the same
+    // if array is empty, fill with some random bigint's (lazily?)
     let result =
         match bases with
         | Some b ->
@@ -75,13 +79,11 @@ let checkBases num =
                     match innerMillerRabin num x s m d with
                     | ProbablePrime _ -> true
                     | _ -> false)
-            let result =
-                if passesAllBases
-                then
-                    Prime num
-                else
-                    Composite num
-            result
+            if passesAllBases
+            then
+                Prime num
+            else
+                Composite num
         | _ ->
             // try random bases
             let rec tryRandomBase (i : int) =
