@@ -87,7 +87,7 @@ let checkBases num =
     then
         Known proof
     else
-        Known proof
+        Known (Composite num)
 
 let invalidCheck num =
     if num < 2I
@@ -116,3 +116,20 @@ let isPrime num =
     |> PrimalityResult.bind smallPrimesDivisibleCheck
     |> PrimalityResult.bind fermatCheck
     |> PrimalityResult.bind checkBases
+
+let rec private iteratePrime dir num =
+    match isPrime num with
+    | Known (Prime _) | Known (ProbablePrime _) -> num
+    | _ -> iteratePrime (num + dir) dir
+
+let nextPrime (num : bigint) =
+    if num.IsEven
+    then iteratePrime 2I (num + 1I)
+    else iteratePrime 2I num + 2I
+
+let prevPrime (num : bigint) =
+    if num <= 2I
+    then 2I
+    else if num.IsEven
+    then iteratePrime -2I (num - 1I)
+    else iteratePrime -2I num - 2I
