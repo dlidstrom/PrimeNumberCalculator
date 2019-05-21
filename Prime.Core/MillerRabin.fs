@@ -124,12 +124,12 @@ let rec private iteratePrime dir num =
 
 let nextPrime (num : bigint) =
     if num.IsEven
-    then iteratePrime 2I (num + 1I)
+    then iteratePrime 2I num + 1I
     else iteratePrime 2I num + 2I
 
 let prevPrime (num : bigint) =
     if num <= 2I
     then 2I
     else if num.IsEven
-    then iteratePrime -2I (num - 1I)
+    then iteratePrime -2I num - 1I
     else iteratePrime -2I num - 2I
