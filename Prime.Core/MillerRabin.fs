@@ -11,11 +11,12 @@ let private smallPrimes =
       233I; 239I; 241I; 251I; 257I ]
     |> Set.ofList
 
+/// Returns true if probable prime; false if composite.
 let private innerMillerRabin num a s m d =
     let firstModPow = bigint.ModPow(a, d, num)
     if firstModPow = 1I || firstModPow = m
     then
-        ProbablePrime num
+        true
     else
         let rec tryPow j =
             if j < s
@@ -24,37 +25,45 @@ let private innerMillerRabin num a s m d =
                 let modPow = bigint.ModPow(a, exp, num)
                 if modPow = m
                 then
-                    ProbablePrime num
+                    true
                 else
                     tryPow (j + 1)
             else
-                Composite num
+                false
 
         tryPow 1
 
 let checkBases num =
-    // todo: change into array only
-    let bases =
+    let proofBases =
         match num with
         | prim when prim < 1373653I ->
-            Some [ 2I; 3I ]
+            Prime prim, [ 2I; 3I ] |> Seq.ofList
         | prim when prim < 9080191I ->
-            Some [ 31I; 73I ]
+            Prime prim, [ 31I; 73I ] |> Seq.ofList
         | prim when prim < 25326001I ->
-            Some [ 2I; 3I; 5I ]
+            Prime prim, [ 2I; 3I; 5I ] |> Seq.ofList
         | prim when prim < 4759123141I ->
-            Some [ 2I; 7I; 61I ]
+            Prime prim, [ 2I; 7I; 61I ] |> Seq.ofList
         | prim when prim < 1122004669633I ->
-            Some [ 2I; 13I; 23I; 1662803I ]
+            Prime prim, [ 2I; 13I; 23I; 1662803I ] |> Seq.ofList
         | prim when prim < 2152302898747I ->
-            Some [ 2I; 3I; 5I; 7I; 11I ]
+            Prime prim, [ 2I; 3I; 5I; 7I; 11I ] |> Seq.ofList
         | prim when prim < 3474749660383I ->
-            Some [ 2I; 3I; 5I; 7I; 11I; 13I ]
+            Prime prim, [ 2I; 3I; 5I; 7I; 11I; 13I ] |> Seq.ofList
         | prim when prim < 341550071728321I ->
-            Some [ 2I; 3I; 5I; 7I; 11I; 13I; 17I ]
+            Prime prim, [ 2I; 3I; 5I; 7I; 11I; 13I; 17I ] |> Seq.ofList
         | prim when prim < 3825123056546413051I ->
-            Some [ 2I; 3I; 5I; 7I; 11I; 13I; 17I; 19I; 23I ]
-        | _ -> None
+            Prime prim, [ 2I; 3I; 5I; 7I; 11I; 13I; 17I; 19I; 23I ] |> Seq.ofList
+        // | prim when prim < 18446744073709551616I ->
+        //     Prime prim, [ 2I; 3I; 5I; 7I; 11I; 13I; 17I; 19I; 23I; 29I; 31I; 37I ] |> Seq.ofList
+        | prim when prim < 318665857834031151167461I ->
+            Prime prim, [ 2I; 3I; 5I; 7I; 11I; 13I; 17I; 19I; 23I; 29I; 31I; 37I ] |> Seq.ofList
+        | prim when prim < 3317044064679887385961981I ->
+            Prime prim, [ 2I; 3I; 5I; 7I; 11I; 13I; 17I; 19I; 23I; 29I; 31I; 37I; 41I ] |> Seq.ofList
+        | prim ->
+            ProbablePrime prim, seq {
+                for i in [ 1 .. 20 ] ->
+                    BigIntegerExtensions.randomIntegerBelow (num - 2I) }
 
     // todo: document what is s
     let m = num - 1I
@@ -70,42 +79,15 @@ let checkBases num =
 
     // both cases are really the same
     // if array is empty, fill with some random bigint's (lazily?)
-    let result =
-        match bases with
-        | Some b ->
-            let passesAllBases =
-                b
-                |> List.forall (fun x ->
-                    match innerMillerRabin num x s m d with
-                    | ProbablePrime _ -> true
-                    | _ -> false)
-            if passesAllBases
-            then
-                Prime num
-            else
-                Composite num
-        | _ ->
-            // try random bases
-            let rec tryRandomBase (i : int) =
-                let result =
-                    if i < 20
-                    then
-                        let based = BigIntegerExtensions.randomIntegerBelow (num - 2I)
-                        let (a : Classification) =
-                            match innerMillerRabin num based s m d with
-                            | ProbablePrime _ ->
-                                let result1 = tryRandomBase (i + 1)
-                                result1
-                            | _ ->
-                                Composite num
-                        a
-                    else
-                        ProbablePrime num
-                result
-
-            let result = tryRandomBase 0
-            result
-    Known result
+    let proof, bases = proofBases
+    let passesAllBases =
+        bases
+        |> Seq.forall (fun x -> innerMillerRabin num x s m d)
+    if passesAllBases
+    then
+        Known proof
+    else
+        Known proof
 
 let invalidCheck num =
     if num < 2I
