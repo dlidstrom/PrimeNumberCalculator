@@ -18,51 +18,39 @@ let private innerMillerRabin num a s m d =
     then
         true
     else
-        let rec tryPow j =
-            if j < s
-            then
-                let exp = bigint.Pow(2I, j) * d
-                let modPow = bigint.ModPow(a, exp, num)
-                if modPow = m
-                then
-                    true
-                else
-                    tryPow (j + 1)
-            else
-                false
-
-        tryPow 1
+        let divides x =
+            let exp = bigint.Pow(2I, x) * d
+            m = bigint.ModPow(a, exp, num)
+        [ 1 .. s] |> Seq.exists divides
 
 let checkBases num =
     let proofBases =
         match num with
         | prim when prim < 1373653I ->
-            Prime prim, [ 2I; 3I ] |> Seq.ofList
+            Prime, [ 2I; 3I ] |> Seq.ofList
         | prim when prim < 9080191I ->
-            Prime prim, [ 31I; 73I ] |> Seq.ofList
+            Prime, [ 31I; 73I ] |> Seq.ofList
         | prim when prim < 25326001I ->
-            Prime prim, [ 2I; 3I; 5I ] |> Seq.ofList
+            Prime, [ 2I; 3I; 5I ] |> Seq.ofList
         | prim when prim < 4759123141I ->
-            Prime prim, [ 2I; 7I; 61I ] |> Seq.ofList
+            Prime, [ 2I; 7I; 61I ] |> Seq.ofList
         | prim when prim < 1122004669633I ->
-            Prime prim, [ 2I; 13I; 23I; 1662803I ] |> Seq.ofList
+            Prime, [ 2I; 13I; 23I; 1662803I ] |> Seq.ofList
         | prim when prim < 2152302898747I ->
-            Prime prim, [ 2I; 3I; 5I; 7I; 11I ] |> Seq.ofList
+            Prime, [ 2I; 3I; 5I; 7I; 11I ] |> Seq.ofList
         | prim when prim < 3474749660383I ->
-            Prime prim, [ 2I; 3I; 5I; 7I; 11I; 13I ] |> Seq.ofList
+            Prime, [ 2I; 3I; 5I; 7I; 11I; 13I ] |> Seq.ofList
         | prim when prim < 341550071728321I ->
-            Prime prim, [ 2I; 3I; 5I; 7I; 11I; 13I; 17I ] |> Seq.ofList
+            Prime, [ 2I; 3I; 5I; 7I; 11I; 13I; 17I ] |> Seq.ofList
         | prim when prim < 3825123056546413051I ->
-            Prime prim, [ 2I; 3I; 5I; 7I; 11I; 13I; 17I; 19I; 23I ] |> Seq.ofList
-        // | prim when prim < 18446744073709551616I ->
-        //     Prime prim, [ 2I; 3I; 5I; 7I; 11I; 13I; 17I; 19I; 23I; 29I; 31I; 37I ] |> Seq.ofList
+            Prime, [ 2I; 3I; 5I; 7I; 11I; 13I; 17I; 19I; 23I ] |> Seq.ofList
         | prim when prim < 318665857834031151167461I ->
-            Prime prim, [ 2I; 3I; 5I; 7I; 11I; 13I; 17I; 19I; 23I; 29I; 31I; 37I ] |> Seq.ofList
+            Prime, [ 2I; 3I; 5I; 7I; 11I; 13I; 17I; 19I; 23I; 29I; 31I; 37I ] |> Seq.ofList
         | prim when prim < 3317044064679887385961981I ->
-            Prime prim, [ 2I; 3I; 5I; 7I; 11I; 13I; 17I; 19I; 23I; 29I; 31I; 37I; 41I ] |> Seq.ofList
-        | prim ->
-            ProbablePrime prim, seq {
-                for i in [ 1 .. 20 ] ->
+            Prime, [ 2I; 3I; 5I; 7I; 11I; 13I; 17I; 19I; 23I; 29I; 31I; 37I; 41I ] |> Seq.ofList
+        | _ ->
+            ProbablePrime, seq {
+                for _ in [ 1 .. 20 ] ->
                     BigIntegerExtensions.randomIntegerBelow (num - 2I) }
 
     // todo: document what is s
@@ -77,15 +65,13 @@ let checkBases num =
     let s = calcS m
     let d = m / bigint.Pow(2I, s)
 
-    // both cases are really the same
-    // if array is empty, fill with some random bigint's (lazily?)
     let proof, bases = proofBases
     let passesAllBases =
         bases
         |> Seq.forall (fun x -> innerMillerRabin num x s m d)
     if passesAllBases
     then
-        Known proof
+        Known (proof (num))
     else
         Known (Composite num)
 
@@ -120,16 +106,17 @@ let isPrime num =
 let rec private iteratePrime dir num =
     match isPrime num with
     | Known (Prime _) | Known (ProbablePrime _) -> num
-    | _ -> iteratePrime (num + dir) dir
+    | _ ->
+        match dir with
+        | Smaller -> iteratePrime dir (num - 2I)
+        | Larger -> iteratePrime dir (num + 2I)
 
-let nextPrime (num : bigint) =
-    if num.IsEven
-    then iteratePrime 2I num + 1I
-    else iteratePrime 2I num + 2I
+let nextPrime num =
+    if num < 2I then 2I
+    else if num.IsEven then iteratePrime Larger (num + 1I)
+    else iteratePrime Larger (num + 2I)
 
-let prevPrime (num : bigint) =
-    if num <= 2I
-    then 2I
-    else if num.IsEven
-    then iteratePrime -2I num - 1I
-    else iteratePrime -2I num - 2I
+let prevPrime num =
+    if num <= 2I then 2I
+    else if num.IsEven then iteratePrime Smaller (num - 1I)
+    else iteratePrime Smaller (num - 2I)

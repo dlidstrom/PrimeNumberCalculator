@@ -21,3 +21,5 @@ module PrimalityResult =
         match e with
         | Known e -> Known e
         | Unknown e -> f(e)
+
+type ScanDirection = Smaller | Larger
