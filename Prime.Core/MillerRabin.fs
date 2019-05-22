@@ -58,7 +58,7 @@ let checkBases num =
     let calcS m =
         let rec inner s (n : bigint) =
             if n.IsEven
-            then inner (s + 1) (bigint.Divide(n, 2I))
+            then inner (s + 1) (n >>> 1)
             else s
         inner 0 m
 
