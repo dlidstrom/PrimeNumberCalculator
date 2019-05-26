@@ -9,6 +9,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Prime.Core", "Prime.Core\Pr
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Prime.Core.Tests", "Prime.Core.Tests\Prime.Core.Tests.fsproj", "{E49DC66D-D192-47EA-BD72-672C5B52ADE0}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Bench", "Bench\Bench.fsproj", "{5EC4DA9E-81A3-4D6E-8EC5-A63E3FF0ECEB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,5 +60,17 @@ Global
 		{E49DC66D-D192-47EA-BD72-672C5B52ADE0}.Release|x64.Build.0 = Release|Any CPU
 		{E49DC66D-D192-47EA-BD72-672C5B52ADE0}.Release|x86.ActiveCfg = Release|Any CPU
 		{E49DC66D-D192-47EA-BD72-672C5B52ADE0}.Release|x86.Build.0 = Release|Any CPU
+		{5EC4DA9E-81A3-4D6E-8EC5-A63E3FF0ECEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EC4DA9E-81A3-4D6E-8EC5-A63E3FF0ECEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EC4DA9E-81A3-4D6E-8EC5-A63E3FF0ECEB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5EC4DA9E-81A3-4D6E-8EC5-A63E3FF0ECEB}.Debug|x64.Build.0 = Debug|Any CPU
+		{5EC4DA9E-81A3-4D6E-8EC5-A63E3FF0ECEB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5EC4DA9E-81A3-4D6E-8EC5-A63E3FF0ECEB}.Debug|x86.Build.0 = Debug|Any CPU
+		{5EC4DA9E-81A3-4D6E-8EC5-A63E3FF0ECEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EC4DA9E-81A3-4D6E-8EC5-A63E3FF0ECEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EC4DA9E-81A3-4D6E-8EC5-A63E3FF0ECEB}.Release|x64.ActiveCfg = Release|Any CPU
+		{5EC4DA9E-81A3-4D6E-8EC5-A63E3FF0ECEB}.Release|x64.Build.0 = Release|Any CPU
+		{5EC4DA9E-81A3-4D6E-8EC5-A63E3FF0ECEB}.Release|x86.ActiveCfg = Release|Any CPU
+		{5EC4DA9E-81A3-4D6E-8EC5-A63E3FF0ECEB}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -27,42 +27,42 @@ let checkBases num =
     let proofBases =
         match num with
         | prim when prim < 1373653I ->
-            Prime, [ 2I; 3I ] |> Seq.ofList
+            Prime, [ 2I; 3I ]
         | prim when prim < 9080191I ->
-            Prime, [ 31I; 73I ] |> Seq.ofList
+            Prime, [ 31I; 73I ]
         | prim when prim < 25326001I ->
-            Prime, [ 2I; 3I; 5I ] |> Seq.ofList
+            Prime, [ 2I; 3I; 5I ]
         | prim when prim < 4759123141I ->
-            Prime, [ 2I; 7I; 61I ] |> Seq.ofList
+            Prime, [ 2I; 7I; 61I ]
         | prim when prim < 1122004669633I ->
-            Prime, [ 2I; 13I; 23I; 1662803I ] |> Seq.ofList
+            Prime, [ 2I; 13I; 23I; 1662803I ]
         | prim when prim < 2152302898747I ->
-            Prime, [ 2I; 3I; 5I; 7I; 11I ] |> Seq.ofList
+            Prime, [ 2I; 3I; 5I; 7I; 11I ]
         | prim when prim < 3474749660383I ->
-            Prime, [ 2I; 3I; 5I; 7I; 11I; 13I ] |> Seq.ofList
+            Prime, [ 2I; 3I; 5I; 7I; 11I; 13I ]
         | prim when prim < 341550071728321I ->
-            Prime, [ 2I; 3I; 5I; 7I; 11I; 13I; 17I ] |> Seq.ofList
+            Prime, [ 2I; 3I; 5I; 7I; 11I; 13I; 17I ]
         | prim when prim < 3825123056546413051I ->
-            Prime, [ 2I; 3I; 5I; 7I; 11I; 13I; 17I; 19I; 23I ] |> Seq.ofList
+            Prime, [ 2I; 3I; 5I; 7I; 11I; 13I; 17I; 19I; 23I ]
         | prim when prim < 318665857834031151167461I ->
-            Prime, [ 2I; 3I; 5I; 7I; 11I; 13I; 17I; 19I; 23I; 29I; 31I; 37I ] |> Seq.ofList
+            Prime, [ 2I; 3I; 5I; 7I; 11I; 13I; 17I; 19I; 23I; 29I; 31I; 37I ]
         | prim when prim < 3317044064679887385961981I ->
-            Prime, [ 2I; 3I; 5I; 7I; 11I; 13I; 17I; 19I; 23I; 29I; 31I; 37I; 41I ] |> Seq.ofList
+            Prime, [ 2I; 3I; 5I; 7I; 11I; 13I; 17I; 19I; 23I; 29I; 31I; 37I; 41I ]
         | _ ->
-            ProbablePrime, seq {
+            ProbablePrime, [
                 for _ in [ 1 .. 20 ] ->
-                    BigIntegerExtensions.randomIntegerBelow (num - 2I) }
+                    BigIntegerExtensions.randomIntegerBelow (num - 2I)
+            ]
 
     // todo: document what is s
+    // rewrite num as 2^s*d + 1
     let m = num - 1I
-    let calcS m =
+    let s =
         let rec inner s (n : bigint) =
             if n.IsEven
             then inner (s + 1) (n >>> 1)
             else s
         inner 0 m
-
-    let s = calcS m
     let d = m / bigint.Pow(2I, s)
 
     let proof, bases = proofBases

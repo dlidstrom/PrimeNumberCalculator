@@ -7,3 +7,5 @@ Prime.Core.Tests/obj
 Prime.Core/bin
 Prime.Core/obj
 .idea/**/workspace.xml
+Bench/bin
+Bench/obj
