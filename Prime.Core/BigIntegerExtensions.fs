@@ -78,12 +78,12 @@ let bigintSqrt (bigNum : bigint) =
         else
             root
 
-let isSqrt (n : bigint) (root : bigint) =
-    let lowerBound = root * root
-    let upperBound = (root + 1I) * (root + 1I)
-    n >= lowerBound && n < upperBound
-
 let sqrt (n : bigint) =
+    let isSqrt n root =
+        let lowerBound = root * root
+        let upperBound = (root + 1I) * (root + 1I)
+        n >= lowerBound && n < upperBound
+
     match n with
     | n when n.IsZero -> 0I
     | n when n <= 0I -> raise (ArithmeticException("NaN"))

@@ -9,3 +9,5 @@ Prime.Core/obj
 .idea/**/workspace.xml
 Bench/bin
 Bench/obj
+BenchmarkDotNet.Artifacts.zip
+Bench/BenchmarkDotNet.Artifacts
