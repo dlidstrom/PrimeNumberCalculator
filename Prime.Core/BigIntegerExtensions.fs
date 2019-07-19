@@ -98,3 +98,15 @@ let sqrt (n : bigint) =
         let bitLength = Convert.ToInt32(Math.Ceiling(bigint.Log(n, 2.)))
         let root = 1I <<< (bitLength / 2)
         loop root
+
+let inline gcd x y =
+    let rec inner x y =
+        match x, y with
+        | x', y' when x' = LanguagePrimitives.GenericZero ->
+            y'
+        | x', y' when y' = LanguagePrimitives.GenericZero ->
+            x'
+        | x', y' ->
+            let x'' = x' % y';
+            inner y' x''
+    inner x y

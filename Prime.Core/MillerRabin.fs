@@ -20,8 +20,12 @@ let private innerMillerRabin num a s m d =
     else
         let divides x =
             let exp = bigint.Pow(2I, x) * d
-            m = bigint.ModPow(a, exp, num)
-        [ 1 .. s] |> Seq.exists divides
+            let y = bigint.ModPow(a, exp, num)
+            // this is false for composite, true if it passes
+            // if it is 1 then we can compute the factor:
+            // factor = GCD m n
+            m = y
+        [ 1 .. s ] |> Seq.exists divides
 
 let checkBases num =
     let proofBases =
