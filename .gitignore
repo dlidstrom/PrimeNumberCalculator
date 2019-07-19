@@ -11,3 +11,4 @@ Bench/bin
 Bench/obj
 BenchmarkDotNet.Artifacts.zip
 Bench/BenchmarkDotNet.Artifacts
+.ionide
