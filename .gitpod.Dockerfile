@@ -22,4 +22,4 @@ USER gitpod
 # RUN sudo apt-get -q update &&
 #    sudo apt-get install -yq 
 RUN git clone https://github.com/MichaelMure/git-bug.git
-RUN cd git-bug && make install
+RUN cd git-bug && sudo make install
