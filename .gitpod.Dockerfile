@@ -21,6 +21,5 @@ USER gitpod
 #    apt -y clean;
 # RUN sudo apt-get -q update &&
 #    sudo apt-get install -yq 
-RUN git clone git@github.com:MichaelMure/git-bug.git &&
-    cd git-bug &&
-    make install
+RUN git clone git@github.com:MichaelMure/git-bug.git
+RUN cd git-bug && make install
