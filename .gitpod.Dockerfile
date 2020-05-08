@@ -1,5 +1,5 @@
-FROM gitpod/workspace-full
-                    
+FROM gitpod/workspace-dotnet
+
 USER gitpod
 
 # Install custom tools, runtime, etc. using apt-get
@@ -19,3 +19,8 @@ USER gitpod
 #    add-apt-repository universe && \
 #    apt-get update && apt-get -y -o APT::Install-Suggests="true" install dotnet-sdk-2.2 && \
 #    apt -y clean;
+# RUN sudo apt-get -q update &&
+#    sudo apt-get install -yq 
+RUN git clone git@github.com:MichaelMure/git-bug.git &&
+    cd git-bug &&
+    make install
