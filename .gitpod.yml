@@ -2,5 +2,11 @@ tasks:
   - init: echo "Replace me with a build script for the project."
     command: echo "Replace me with something that should run on every start, or just
       remove me entirely."
+  - git-bug: git bug bridge configure \
+             --name=default \
+             --target=github \
+             --owner=dlidstrom \
+             --project=github.com/dlidstrom/PrimeNumberCalculator \
+             --token=$(GitBugToken)
 image:
   file: .gitpod.Dockerfile
