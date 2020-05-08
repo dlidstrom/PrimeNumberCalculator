@@ -22,4 +22,11 @@ USER gitpod
 # RUN sudo apt-get -q update &&
 #    sudo apt-get install -yq 
 RUN git clone https://github.com/MichaelMure/git-bug.git
-# RUN cd git-bug && make install
+RUN cd git-bug && make && export PATH=$PATH:/home/gitpod/git-bug
+RUN `gp env -e`
+RUN git bug bridge configure \
+    --name=default \
+    --target=github \
+    --owner=dlidstrom \
+    --project=github.com/dlidstrom/PrimeNumberCalculator \
+    --token=$(GitBugToken)
