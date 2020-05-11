@@ -1,0 +1,13 @@
+{
+    "editor.autoSave": "on",
+    "editor.renderWhitespace": "all",
+    "editor.rulers": [
+        40,
+        80,
+        120
+    ],
+    "editor.fontFamily": "JetBrains Mono",
+    "editor.fontLigatures": true,
+    "editor.cursorBlinking": "solid",
+    "editor.cursorWidth": 3
+}

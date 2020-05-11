@@ -1,0 +1,21 @@
+tasks:
+  - init: git bug bridge configure \
+          --name=default \
+          --target=github \
+          --owner=dlidstrom \
+          --project=github.com/dlidstrom/PrimeNumberCalculator \
+          --token=$(GitBugToken)
+# See https://github.com/jankeromnes/dotnet-gitpod/blob/6428f1887549f0dd7f7d579229c51707be750292/.gitpod.yml
+# - command: dotnet run --urls http://0.0.0.0:5001
+image:
+  file: .gitpod.Dockerfile
+vscode:
+  extensions:
+    - ms-vscode.csharp@1.21.12:kw8SkO8+aVTSFug281WfQQ==
+    - Ionide.Ionide-fsharp@4.6.2:yBkAE6j7z7gJ5WEcyMjEOg==
+# List the ports you want to expose and what to do when they are served. See https://www.gitpod.io/docs/43_config_ports/
+#ports:
+#  - port: 5000
+#    onOpen: ignore
+#  - port: 5001
+#    onOpen: open-preview
